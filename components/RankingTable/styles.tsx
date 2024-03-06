@@ -8,7 +8,7 @@ export const stylesComponent = StyleSheet.create({
       },
       cabecalho: {
         flexDirection: 'row',
-        backgroundColor: 'purple',
+        backgroundColor: '#7030A0',
         padding: 10,
         borderBottomWidth: 1,
         borderBottomColor: 'white',
@@ -48,4 +48,7 @@ export const stylesComponent = StyleSheet.create({
         flex: 3,
         maxWidth: 150,
       },
+      primeirasLinhasBackground: {
+        backgroundColor: '#FF00FF'
+      }
 });

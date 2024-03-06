@@ -15,21 +15,28 @@ export default function TabOneScreen() {
   const series = "Serie A"
 
   const fetchData = async () => {
-    const jogosData = await api.getGames();
+    const jogosData = await api.getGames('FM', 'A');
     setJogos(jogosData);
   };
   
-    useEffect(() => {
-      fetchData();
-    }, []);
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const handleOptionChange = async (value: string | undefined) => {
+    if (value){
+      const data = value.split('/');
+      const newGames = await api.getGames(data[0], data[1]);
+      setJogos(newGames); // Atualiza o estado dos jogos com os novos jogos obtidos
+    }
+  };
     
   return (
     <View style={styles.container}>
-      {/* <HeaderModality/> */}
-      <Text>Em breve!</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      {/* <Button title="Recarregar Dados" onPress={fetchData} /> */}
-      {/* <GamesTableSimulator jogos={jogos} /> */}
+      <HeaderModality 
+        onOptionChange={handleOptionChange}
+      />
+      <GamesTableSimulator jogos={jogos} />
     </View>
   );
 }

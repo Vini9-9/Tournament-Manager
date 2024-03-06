@@ -17,9 +17,19 @@ const api = {
   },
   getGames: async (modality: string, series: string): Promise<Game[]> => {
     try {
-      console.log(`${API_URL}/games/${modality}/${series}`)
-      const response = await fetch(`${API_URL}/games/${modality}/${series}`);
-      // const response = await fetch(`${MOCK_API_URL}/games/`);
+      // const response = await fetch(`${API_URL}/games/${modality}/${series}`);
+      const response = await fetch(`${MOCK_API_URL}/games/`);
+      const data = await response.json();
+      return data as Game[];
+    } catch (error) {
+      console.error('Erro ao obter jogos:', error);
+      return []
+    }
+  },
+  getGamesSimulator: async (modality: string, series: string): Promise<Game[]> => {
+    try {
+      // const response = await fetch(`${API_URL}/games/${modality}/${series}?simulator=True`);
+      const response = await fetch(`${MOCK_API_URL}/games/`);
       const data = await response.json();
       return data as Game[];
     } catch (error) {
@@ -29,8 +39,8 @@ const api = {
   },
   getRanking: async (modality: string, series: string): Promise<GroupRanking[]> => {
     try {
-      const response = await fetch(`${API_URL}/ranking/${modality}/${series}`);
-      // const response = await fetch(`${MOCK_API_URL}/ranking`);
+      // const response = await fetch(`${API_URL}/ranking/${modality}/${series}`);
+      const response = await fetch(`${MOCK_API_URL}/ranking`);
       const data = await response.json();
       return data as GroupRanking[];
     } catch (error) {
@@ -40,7 +50,8 @@ const api = {
   },
   getRankingSimulator: async (): Promise<GroupRanking[]> => {
     try {
-      const response = await fetch(`${API_URL}/ranking?simulator=True`);
+      // const response = await fetch(`${API_URL}/ranking?simulator=True`);
+      const response = await fetch(`https://6398a58f29930e2bb3bd4ef3.mockapi.io/api/ranking`);
       const data = await response.json();
       return data as GroupRanking[];
     } catch (error) {
@@ -52,3 +63,5 @@ const api = {
 };
 
 export default api;
+
+

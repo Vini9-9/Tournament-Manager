@@ -1,15 +1,27 @@
 import { Modality } from '@/types';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
+import api from '@/services/api';
 
 interface HeaderModalityProps {
-    options: Modality[]; // Lista de opções no formato { label: "modality - series", value: "modality - series" }
+    // options: Modality[]; // Lista de opções no formato { label: "modality - series", value: "modality - series" }
     onOptionChange: (value: string) => void;
 }
 
-const HeaderModality: React.FC<HeaderModalityProps>  = ({ options, onOptionChange }) => {
+
+const HeaderModality: React.FC<HeaderModalityProps>  = ({ onOptionChange }) => {
+    const [options, setOptions] = useState<Modality[]>([]);
     // const [selectedOption, setSelectedOption] = useState<string>(options[0].value);
+
+    const fetchData = async () => {
+        const modalitiesData = await api.getModalities();
+        setOptions(modalitiesData);
+      };
+      
+        useEffect(() => {
+          fetchData();
+        }, []);
 
     return (
         <View style={styles.container}>

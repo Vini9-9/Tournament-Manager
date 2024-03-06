@@ -32,4 +32,23 @@ export const stylesComponent = StyleSheet.create({
     textAlign: 'center',
     fontWeight: 'bold', // Para dar destaque ao placar
   },
+  textoDestaque: {
+    flex: 1,
+    // color: 'black',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  item: {
+    flexDirection: 'row',
+    // justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    // padding: 10,
+    marginBottom: 0, // Espaçamento inferior entre as células
+    marginTop: 10, // Espaçamento inferior entre as células
+    marginHorizontal: 5,
+    backgroundColor: 'white', // Cor de fundo
+  },
+  disabledBackground: {
+    backgroundColor: 'silver'
+  }
 });

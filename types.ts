@@ -9,7 +9,21 @@ export interface Game {
     HORARIO: string;
     LOCAL: string;
     PLACAR: string;
-    SIMULADOR: boolean;
+    SIMULADOR: string | boolean;
+}
+
+export interface GameUpdated {
+    ID: string;
+    DIA?: string;
+    Mandante?: string;
+    Visitante?: string;
+    GOLS_MANDANTE: number | string;
+    GOLS_VISITANTE: number | string;
+    GRUPO?: string;
+    HORARIO?: string;
+    LOCAL?: string;
+    PLACAR?: string;
+    SIMULADOR?: boolean;
 }
   
 export interface Team {
@@ -26,8 +40,8 @@ export interface Team {
 }
 
 export interface GroupRanking {
-  group: string,
-  ranking: Team[]
+  group: string;
+  ranking: Team[];
 }
 
 export interface Modality {

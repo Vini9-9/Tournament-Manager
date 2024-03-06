@@ -5,12 +5,18 @@ import { stylesComponent } from './styles';
 
 interface RankingTableProps {
   ranking: GroupRanking[];
+  numberToQualify: number;
 }
 
-const RankingTable: React.FC<RankingTableProps> = ({ ranking }) => {
+const RankingTable: React.FC<RankingTableProps> = ({ ranking, numberToQualify }) => {
 
-  const renderRow = (time: Team, index: number) => (
-    <View style={stylesComponent.item}>
+  const renderRow = (time: Team, index: number) => {
+    let itemStyle: any = stylesComponent.item;
+    if (index < numberToQualify) { // Altere x para o número de linhas que deseja destacar
+      itemStyle = [stylesComponent.item, stylesComponent.primeirasLinhasBackground];
+    }
+    return (
+    <View style={itemStyle}>
       <Text style={stylesComponent.texto}>{index+1}º</Text>
       <Text style={[stylesComponent.texto, stylesComponent.textoTimes]}>{time.Time}</Text>
       <Text style={stylesComponent.texto}>{time.Pontos}</Text>
@@ -22,7 +28,7 @@ const RankingTable: React.FC<RankingTableProps> = ({ ranking }) => {
       <Text style={stylesComponent.texto}>{time.Gols_Contra}</Text>
       <Text style={stylesComponent.texto}>{time.Saldo}</Text>
     </View>
-  );
+  )};
 
   const renderHeader = (ranking: GroupRanking) => (
     <View style={[stylesComponent.item, stylesComponent.cabecalho]}>
@@ -56,7 +62,7 @@ const RankingTable: React.FC<RankingTableProps> = ({ ranking }) => {
     <ScrollView >
         <View style={stylesComponent.container}>
             {ranking.map((item, index) => (
-            <View style={stylesComponent.item}>
+            <View style={stylesComponent.item} key={`group_${index}`}>
                 {renderGroup({ item })}
             </View>
             ))}

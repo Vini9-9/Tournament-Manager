@@ -18,20 +18,10 @@ export default function TabOneScreen() {
       setGames(newGames); // Atualiza o estado dos jogos com os novos jogos obtidos
     }
     };
-
-  const fetchData = async () => {
-    const modalitiesData = await api.getModalities();
-    setOptions(modalitiesData);
-  };
-  
-    useEffect(() => {
-      fetchData();
-    }, []);
     
   return (
     <View style={styles.container}>
       <HeaderModality 
-        options={options} 
         onOptionChange={handleOptionChange}
       />
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />

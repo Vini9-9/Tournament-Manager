@@ -1,21 +1,29 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TextInput } from 'react-native';
 import { stylesComponent } from './styles';
+import { Game } from '@/types';
 
 interface CelulaPartidaSimuladaProps {
-  mandante: string;
-  visitante: string;
+  updateRanking: (game: Game, golsMandante: number, golsVisitante: number) => void;
+  game: Game 
 }
 
 const GameCellSimulator: React.FC<CelulaPartidaSimuladaProps> = ({
-  mandante,
-  visitante,
+  updateRanking,
+  game
 }) => {
   const minValue = 0; // Valor mínimo
   const maxValue = 40; // Valor máximo
 
   const [golsMandante, setGolsMandante] = useState<number | string>('');
   const [golsVisitante, setGolsVisitante] = useState<number | string>('');
+
+  useEffect(() => {
+    if (parseInt(golsMandante.toString()) > -1 &&
+    parseInt(golsVisitante.toString()) > -1) {
+      handleBothInputsFilled();
+    }
+  }, [golsMandante, golsVisitante]);
 
   const handleGolsMandanteChange = (text: string) => {
     const value = parseInt(text, 10) || 0;
@@ -27,38 +35,64 @@ const GameCellSimulator: React.FC<CelulaPartidaSimuladaProps> = ({
     setGolsVisitante(Math.min(maxValue, Math.max(minValue, value)));
   };
   
+  const handleBothInputsFilled = () => {
+    updateRanking(game, parseInt(golsMandante.toString()), parseInt(golsVisitante.toString()))
+  };
   return (
-  <View style={[stylesComponent.celulaPartida, stylesComponent.borda]}>
-    <View style={styles.container}>
-      <Text numberOfLines={2} style={[stylesComponent.texto, styles.teamName]}>
-          {mandante}
-      </Text>
+    <>
+    <View style={stylesComponent.item}>
+      <Text style={stylesComponent.textoDestaque}> Grupo {game.GRUPO}</Text>
     </View>
-    <TextInput
-        style={[styles.input, stylesComponent.texto]}
-        value={golsMandante.toString()}
-        onChangeText={handleGolsMandanteChange}
-        keyboardType="numeric"
-        placeholder="0"
-        placeholderTextColor="grey"
-      />
-    <Text style={[stylesComponent.texto, stylesComponent.textoPlacar]}>
-      x
-    </Text>
-    <TextInput
-        style={[styles.input, stylesComponent.texto]}
-        value={golsVisitante.toString()}
-        onChangeText={handleGolsVisitanteChange}
-        keyboardType="numeric"
-        placeholder="0"
-        placeholderTextColor="grey"
-      />
-      <View style={styles.container}>
-        <Text numberOfLines={2} style={[stylesComponent.texto, styles.teamName]}>
-            {visitante}
+    {game.SIMULADOR.toString().toLowerCase() == 'true' ? (
+      <View style={[stylesComponent.celulaPartida, stylesComponent.borda]}>
+        <View style={styles.container}>
+          <Text numberOfLines={2} style={[stylesComponent.texto, styles.teamName]}>
+            {game.Mandante}
+          </Text>
+        </View>
+        <TextInput
+          style={[styles.input, stylesComponent.texto]}
+          value={golsMandante.toString()}
+          onChangeText={handleGolsMandanteChange}
+          keyboardType="numeric"
+          placeholder="0"
+          placeholderTextColor="grey"
+        />
+        <Text style={[stylesComponent.texto, stylesComponent.textoPlacar]}>
+          x
         </Text>
+        <TextInput
+          style={[styles.input, stylesComponent.texto]}
+          value={golsVisitante.toString()}
+          onChangeText={handleGolsVisitanteChange}
+          keyboardType="numeric"
+          placeholder="0"
+          placeholderTextColor="grey"
+        />
+        <View style={styles.container}>
+          <Text numberOfLines={2} style={[stylesComponent.texto, styles.teamName]}>
+            {game.Visitante}
+          </Text>
+        </View>
       </View>
-  </View>
+    ) : (
+      <View style={[stylesComponent.celulaPartida, stylesComponent.borda, stylesComponent.disabledBackground]}>
+        <View style={styles.container}>
+          <Text numberOfLines={2} style={[stylesComponent.texto, styles.teamName]}>
+            {game.Mandante}
+          </Text>
+        </View>
+        <Text style={[stylesComponent.texto, stylesComponent.textoPlacar]}>
+          {game.GOLS_MANDANTE} x {game.GOLS_VISITANTE}
+        </Text>
+        <View style={styles.container}>
+          <Text numberOfLines={2} style={[stylesComponent.texto, styles.teamName]}>
+            {game.Visitante}
+          </Text>
+        </View>
+      </View>
+    )}
+  </>
 )};
 
 const styles = StyleSheet.create({
