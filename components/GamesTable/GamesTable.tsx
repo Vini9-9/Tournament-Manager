@@ -16,12 +16,15 @@ const GamesTable: React.FC<GamesTableProps> = ({ jogos }) => {
 
   const renderRow = (item: Game) => (
     <View>
-      <View style={stylesComponent.item}>
-        <View style={stylesComponent.localIcon}>
-          <Icon name="map-marker" size={20} color="black" />
-        </View>
-        <Text style={stylesComponent.textoEsquerda}>{item.LOCAL}</Text>
         <Text style={stylesComponent.textoDestaque}> Grupo {item.GRUPO}</Text>
+      <View style={stylesComponent.item}>
+        {item.LOCAL &&
+          <>
+          <View style={stylesComponent.localIcon}>
+            <Icon name="map-marker" size={20} color="black" />
+          </View>
+          <Text style={stylesComponent.textoEsquerda}>{item.LOCAL}</Text>
+        </>}
         <Text style={stylesComponent.textoDireita}>
           {item.DIA && formatarData(item.DIA)} {item.DIA && '|'} {item.HORARIO}
         </Text>

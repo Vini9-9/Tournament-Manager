@@ -15,19 +15,22 @@ export const stylesComponent = StyleSheet.create({
     textoDireita: {
       flex: 1,
       textAlign: 'right', // Ajuste para alinhar o texto à direita
-      width: 150,
+      width: 170,
     },
     textoEsquerda: {
       flex: 1,
       textAlign: 'left', // Ajuste para alinhar o texto à esquerda
-      width: 120,
-      marginLeft: 5
+      width: 100,
+      marginLeft: 5,
     },
     textoDestaque: {
       flex: 1,
       // color: 'black',
       fontWeight: 'bold',
       textAlign: 'center',
+      justifyContent: 'center',
+      marginBottom: -10,
+      marginTop: 10,
     },
     texto: {
       flex: 1,
