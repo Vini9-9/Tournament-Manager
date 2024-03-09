@@ -1,8 +1,8 @@
-import { Game, GroupRanking, Modality, Team } from '../types';
+import { Confrontations, Game, GroupRanking, Modality, Team } from '../types';
 
-const API_URL = 'http://127.0.0.1:5001/api'; // ou o endereço da sua API local
-const MOCK_API_URL = 'https://6398a58f29930e2bb3bd4ef3.mockapi.io/api/'; // ou o endereço da sua API local
-const MOCK_API_MODALITIES_URL = 'https://run.mocky.io/v3/ad07e52d-b970-4488-b484-5045fccbf236'; // ou o endereço da sua API local
+const API_URL = 'http://vini99.pythonanywhere.com/api'; // ou o endereço da sua API local
+// const MOCK_API_URL = 'https://6398a58f29930e2bb3bd4ef3.mockapi.io/api/'; // ou o endereço da sua API local
+// const MOCK_API_MODALITIES_URL = 'https://run.mocky.io/v3/ad07e52d-b970-4488-b484-5045fccbf236'; // ou o endereço da sua API local
 
 const api = {
   getModalities: async (): Promise<Modality[]> => {
@@ -17,19 +17,8 @@ const api = {
   },
   getGames: async (modality: string, series: string): Promise<Game[]> => {
     try {
-      // const response = await fetch(`${API_URL}/games/${modality}/${series}`);
-      const response = await fetch(`${MOCK_API_URL}/games/`);
-      const data = await response.json();
-      return data as Game[];
-    } catch (error) {
-      console.error('Erro ao obter jogos:', error);
-      return []
-    }
-  },
-  getGamesSimulator: async (modality: string, series: string): Promise<Game[]> => {
-    try {
-      // const response = await fetch(`${API_URL}/games/${modality}/${series}?simulator=True`);
-      const response = await fetch(`${MOCK_API_URL}/games/`);
+      const response = await fetch(`${API_URL}/games/${modality}/${series}`);
+      // const response = await fetch(`${MOCK_API_URL}/games/`);
       const data = await response.json();
       return data as Game[];
     } catch (error) {
@@ -39,8 +28,8 @@ const api = {
   },
   getRanking: async (modality: string, series: string): Promise<GroupRanking[]> => {
     try {
-      // const response = await fetch(`${API_URL}/ranking/${modality}/${series}`);
-      const response = await fetch(`${MOCK_API_URL}/ranking`);
+      const response = await fetch(`${API_URL}/ranking/${modality}/${series}`);
+      // const response = await fetch(`${MOCK_API_URL}/ranking`);
       const data = await response.json();
       return data as GroupRanking[];
     } catch (error) {
@@ -48,15 +37,14 @@ const api = {
       return []
     }
   },
-  getRankingSimulator: async (): Promise<GroupRanking[]> => {
+  getConfrontations:async (modality: string, series: string): Promise<Confrontations> => {
     try {
-      // const response = await fetch(`${API_URL}/ranking?simulator=True`);
-      const response = await fetch(`https://6398a58f29930e2bb3bd4ef3.mockapi.io/api/ranking`);
+      const response = await fetch(`${API_URL}/games/${modality}/${series}/confrontation`);
       const data = await response.json();
-      return data as GroupRanking[];
+      return data as Confrontations;
     } catch (error) {
-      console.error('Erro ao obter ranking:', error);
-      return []
+      console.error('Erro ao obter confrontos:', error);
+      return {}
     }
   },
 
