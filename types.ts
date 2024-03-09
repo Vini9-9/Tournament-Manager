@@ -50,3 +50,11 @@ export interface Modality {
   series: string, 
   value: string, 
 }
+
+export interface MatchResult {
+  [opponent: string]: string; // Chave: Nome do adversário, Valor: Resultado do jogo
+}
+
+export interface Confrontations {
+  [team: string]: MatchResult; // Chave: Nome do time, Valor: Resultados dos jogos
+}
