@@ -1,23 +1,27 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, ScrollView, FlatList, Button } from 'react-native';
-import { Game, GameUpdated, GroupRanking, Team } from '../../types';
-import { stylesComponent } from './styles'
+import { View, ScrollView, FlatList, } from 'react-native';
+import { Game, GroupRanking, Team } from '../../types';
 import { styles } from '../../styles/styles'
-import moment from 'moment';
 import GameCellSimulator from '../GameCellSimulator/GameCellSimulator';
 import RankingTable from '../RankingTable/RankingTable';
 import api from '@/services/api';
+import HeaderModality from '../HeaderModality/HeaderModality';
 
 interface GamesTableProps {
   jogos: Game[];
+  modality: string;
 }
 
-const GamesTableSimulator: React.FC<GamesTableProps> = ({ jogos }) => {
+const GamesTableSimulator: React.FC = () => {
+  const [jogos, setJogos] = useState<Game[]>([]);
   const [ranking, setRanking] = useState<GroupRanking[]>([]);
   const [updatedGamesByTeam, setUpdatedGamesByTeam] = useState<{ [teamName: string]: Set<string> }>({});
 
-  const fetchData = async () => {
-    const rankingData = await api.getRanking('FM', 'A');
+  const fetchData = async ( modality: string[]) => {
+    console.log('fetchData', modality)
+    const rankingData = await api.getRanking(modality[0], modality[1]);
+    const jogosData = await api.getGames(modality[0], modality[1]);
+    setJogos(jogosData);
     setRanking(rankingData);
     saveRankingToStorage(rankingData)
   };
@@ -26,11 +30,12 @@ const GamesTableSimulator: React.FC<GamesTableProps> = ({ jogos }) => {
   const getRankingFromStorage = async () => {
     try {
       const jsonRanking = sessionStorage.getItem('ranking');
+      console.log('jsonRanking', jsonRanking)
       if (jsonRanking) {
         const parsedRanking: GroupRanking[] = JSON.parse(jsonRanking);
         setRanking(parsedRanking);
       } else {
-        fetchData();
+        fetchData(['FM', 'A']);
       }
     } catch (error) {
       console.error('Erro ao recuperar o ranking do AsyncStorage:', error);
@@ -170,7 +175,8 @@ const GamesTableSimulator: React.FC<GamesTableProps> = ({ jogos }) => {
       if (mandanteFound && visitanteFound) {
           game.GOLS_MANDANTE = golsMandante;
           game.GOLS_VISITANTE = golsVisitante;
-          jogos = updateGame(game);
+          // jogos = updateGame(game);
+          setJogos(updateGame(game))
           mandanteFound = false;
           visitanteFound = false;
       }
@@ -217,7 +223,21 @@ const GamesTableSimulator: React.FC<GamesTableProps> = ({ jogos }) => {
     </View>
   );
 
+  const handleOptionChange = async (value: string | undefined) => {
+    if (value){
+      const data = value.split('/');
+      const newGames = await api.getGames(data[0], data[1]);
+      setJogos(newGames); // Atualiza o estado dos jogos com os novos jogos obtidos
+      sessionStorage.clear()
+      fetchData(data)
+    }
+  };
+
   return (
+    <>
+    <HeaderModality 
+        onOptionChange={handleOptionChange}
+      />
     <ScrollView horizontal>
       <View style={styles.container}>
       <FlatList
@@ -227,6 +247,7 @@ const GamesTableSimulator: React.FC<GamesTableProps> = ({ jogos }) => {
       </View>
       <RankingTable ranking={ranking} numberToQualify={4} />
     </ScrollView>
+    </>
   );
 };
 
