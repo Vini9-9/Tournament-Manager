@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, ScrollView, FlatList, } from 'react-native';
-import { Game, GroupRanking, Team } from '../../types';
+import { Confrontations, Game, GroupRanking, Team } from '../../types';
 import { styles } from '../../styles/styles'
 import GameCellSimulator from '../GameCellSimulator/GameCellSimulator';
 import RankingTable from '../RankingTable/RankingTable';
@@ -15,22 +15,23 @@ interface GamesTableProps {
 const GamesTableSimulator: React.FC = () => {
   const [jogos, setJogos] = useState<Game[]>([]);
   const [ranking, setRanking] = useState<GroupRanking[]>([]);
+  const [confrontation, setConfrontation] = useState<Confrontations>({});
   const [updatedGamesByTeam, setUpdatedGamesByTeam] = useState<{ [teamName: string]: Set<string> }>({});
 
   const fetchData = async ( modality: string[]) => {
-    console.log('fetchData', modality)
     const rankingData = await api.getRanking(modality[0], modality[1]);
     const jogosData = await api.getGames(modality[0], modality[1]);
+    const confrontationData = await api.getConfrontations(modality[0], modality[1]);
     setJogos(jogosData);
     setRanking(rankingData);
-    saveRankingToStorage(rankingData)
+    setConfrontation(confrontationData);
+    saveRankingToStorage(rankingData, confrontationData)
   };
 
   // Função para recuperar o ranking armazenado no AsyncStorage
   const getRankingFromStorage = async () => {
     try {
       const jsonRanking = sessionStorage.getItem('ranking');
-      console.log('jsonRanking', jsonRanking)
       if (jsonRanking) {
         const parsedRanking: GroupRanking[] = JSON.parse(jsonRanking);
         setRanking(parsedRanking);
@@ -43,15 +44,17 @@ const GamesTableSimulator: React.FC = () => {
   };
 
   // Função para salvar o ranking no AsyncStorage
-  const saveRankingToStorage = async (newRanking: GroupRanking[]) => {
+  const saveRankingToStorage = async (newRanking: GroupRanking[], newConfrontation? : Confrontations ) => {
     try {
       const jsonRanking = JSON.stringify(newRanking);
+      const jsonConfrontation = JSON.stringify(newConfrontation);
       sessionStorage.setItem('ranking', jsonRanking);
+      sessionStorage.setItem('confrontation', jsonConfrontation);
     } catch (error) {
-      console.error('Erro ao salvar o ranking no AsyncStorage:', error);
+      console.error('Erro ao salvar dados do ranking no AsyncStorage:', error);
     }
   };
-  
+
   useEffect(() => {
     getRankingFromStorage();
   }, []);
@@ -177,14 +180,62 @@ const GamesTableSimulator: React.FC = () => {
           game.GOLS_VISITANTE = golsVisitante;
           // jogos = updateGame(game);
           setJogos(updateGame(game))
+          updateClashConfrontation(game, golsMandante, golsVisitante)
           mandanteFound = false;
           visitanteFound = false;
       }
   
-      saveRankingToStorage(updatedRanking);
+      saveRankingToStorage(updatedRanking, confrontation);
       return updatedRanking;
     });
   };
+
+  const updateClashConfrontation = (game: Game, golsMandante: number, golsVisitante: number) => {
+    // Verificar se os times do jogo estão presentes no hook confrontation
+    if (confrontation.hasOwnProperty(game.Mandante) && confrontation.hasOwnProperty(game.Visitante)) {
+      // Verificar o resultado do jogo
+      if (golsMandante > golsVisitante) {
+          // Se o mandante ganhou, atualize o confronto
+          confrontation[game.Mandante][game.Visitante] = game.Mandante;
+          confrontation[game.Visitante][game.Mandante] = game.Mandante;
+      } else if (golsMandante < golsVisitante) {
+          // Se o visitante ganhou, atualize o confronto
+          confrontation[game.Mandante][game.Visitante] = game.Visitante;
+          confrontation[game.Visitante][game.Mandante] = game.Visitante;
+      } else {
+          // Se foi empate, atualize o confronto para o mandante
+          confrontation[game.Mandante][game.Visitante] = 'E';
+          confrontation[game.Visitante][game.Mandante] = 'E';
+      }
+    } else {
+      // Se um dos times não estiver presente no confrontation, adicione-o
+      if (!confrontation.hasOwnProperty(game.Mandante)) {
+        confrontation[game.Mandante] = {};
+      }
+      if (!confrontation.hasOwnProperty(game.Visitante)) {
+          confrontation[game.Visitante] = {};
+      }
+      // Atualize o confronto após adicionar os times
+      updateClashConfrontation(game, golsMandante, golsVisitante);
+      }
+  }
+  
+  const setTeamAhead = (teamOne: Team, teamTwo: Team) => {
+    // Verificar se o hook confrontation contém a chave teamOne.Time
+    if (confrontation.hasOwnProperty(teamOne.Time)) {
+      // Verificar se a chave teamTwo.Time existe dentro dos confrontos de teamOne.Time
+      if (confrontation[teamOne.Time].hasOwnProperty(teamTwo.Time)) {
+          const result = confrontation[teamOne.Time][teamTwo.Time];
+          console.log(`O vencedor do confronto entre ${teamOne.Time} e ${teamTwo.Time} é: ${result}`);
+          // Faça o que quiser com o resultado aqui
+          return result;
+      } else {
+          console.log(`Não foi encontrado o confronto entre ${teamOne.Time} e ${teamTwo.Time}`);
+      }
+    } else {
+        console.log(`Não foi encontrado o time ${teamOne.Time} nos confrontos`);
+    }
+  }
 
   const sortRanking = (ranking: GroupRanking[]) => {
     ranking.forEach(groupRanking => {
@@ -195,6 +246,20 @@ const GamesTableSimulator: React.FC = () => {
         if (pontosA !== pontosB) {
           return pontosB - pontosA;
         }
+        // TODO regra segundo  
+        if (pontosA === pontosB) {
+          // Chamar setTeamAhead passando os dados dos dois times
+          const teamAhead = setTeamAhead(a, b);
+            if (teamAhead != 'E') {
+                // O time que venceu o confronto está à frente
+                if (teamAhead === a.Time) {
+                    return -1; // a vem antes de b
+                } else {
+                    return 1; // b vem antes de a
+                }
+            }
+        }
+        
         // Segundo critério: Saldo (em ordem decrescente)
         const saldoA = parseInt(a.Saldo.toString());
         const saldoB = parseInt(b.Saldo.toString());
