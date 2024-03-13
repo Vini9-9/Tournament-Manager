@@ -1,10 +1,10 @@
 import { GroupRanking, Team } from '@/types';
 import React from 'react';
-import { View, Text, ScrollView, FlatList } from 'react-native';
+import { View, Text, ScrollView, FlatList, ActivityIndicator } from 'react-native';
 import { stylesComponent } from './styles';
 
 interface RankingTableProps {
-  ranking: GroupRanking[];
+  ranking: GroupRanking[] | string;
   numberToQualify: number;
 }
 
@@ -58,17 +58,32 @@ const RankingTable: React.FC<RankingTableProps> = ({ ranking, numberToQualify })
     </ScrollView>
   );
 
-  return (
-    <ScrollView >
+  // Se o ranking estiver disponível e for um array, renderiza os grupos
+  if (ranking) {
+    if (typeof ranking === 'string') {
+      ranking = JSON.parse(ranking) as GroupRanking[];
+    }
+    return (
+      <ScrollView>
         <View style={stylesComponent.container}>
-            {ranking.map((item, index) => (
+          {ranking.map((item, index) => (
             <View style={stylesComponent.item} key={`group_${index}`}>
-                {renderGroup({ item })}
+              {renderGroup({ item })}
             </View>
-            ))}
+          ))}
         </View>
-    </ScrollView>
-  );
+      </ScrollView>
+    );
+  } else {
+    console.log('ranking false', ranking, Array.isArray(ranking))
+    console.log(typeof(ranking))
+    // Se o ranking estiver definido, mas não for um array, exiba uma mensagem de erro
+    return (
+      <View style={[stylesComponent.loadingContainer]}>
+        <ActivityIndicator size="large" color="#0000ff" />
+      </View>
+    );
+  }
 };
 
 

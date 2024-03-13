@@ -6,11 +6,8 @@ import GameCellSimulator from '../GameCellSimulator/GameCellSimulator';
 import RankingTable from '../RankingTable/RankingTable';
 import api from '@/services/api';
 import HeaderModality from '../HeaderModality/HeaderModality';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-interface GamesTableProps {
-  jogos: Game[];
-  modality: string;
-}
 
 const GamesTableSimulator: React.FC = () => {
   const [jogos, setJogos] = useState<Game[]>([]);
@@ -31,7 +28,8 @@ const GamesTableSimulator: React.FC = () => {
   // Função para recuperar o ranking armazenado no AsyncStorage
   const getRankingFromStorage = async () => {
     try {
-      const jsonRanking = sessionStorage.getItem('ranking');
+      // const jsonRanking = sessionStorage.getItem('ranking');
+      const jsonRanking = await AsyncStorage.getItem('ranking');
       if (jsonRanking) {
         const parsedRanking: GroupRanking[] = JSON.parse(jsonRanking);
         setRanking(parsedRanking);
@@ -48,14 +46,17 @@ const GamesTableSimulator: React.FC = () => {
     try {
       const jsonRanking = JSON.stringify(newRanking);
       const jsonConfrontation = JSON.stringify(newConfrontation);
-      sessionStorage.setItem('ranking', jsonRanking);
-      sessionStorage.setItem('confrontation', jsonConfrontation);
+      await AsyncStorage.setItem('ranking', JSON.stringify(jsonRanking));
+      await AsyncStorage.setItem('confrontation', JSON.stringify(jsonConfrontation));
+      // sessionStorage.setItem('ranking', jsonRanking);
+      // sessionStorage.setItem('confrontation', jsonConfrontation);
     } catch (error) {
       console.error('Erro ao salvar dados do ranking no AsyncStorage:', error);
     }
   };
 
   useEffect(() => {
+    clearAllData();
     getRankingFromStorage();
   }, []);
 
@@ -288,12 +289,21 @@ const GamesTableSimulator: React.FC = () => {
     </View>
   );
 
+  const clearAllData = async () => {
+    try {
+      await AsyncStorage.clear();
+      console.log('All data cleared successfully!');
+    } catch (e) {
+      console.error('Failed to clear data:', e);
+    }
+  }
+
   const handleOptionChange = async (value: string | undefined) => {
     if (value){
       const data = value.split('/');
       const newGames = await api.getGames(data[0], data[1]);
       setJogos(newGames); // Atualiza o estado dos jogos com os novos jogos obtidos
-      sessionStorage.clear()
+      clearAllData()
       fetchData(data)
     }
   };

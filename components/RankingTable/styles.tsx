@@ -50,5 +50,11 @@ export const stylesComponent = StyleSheet.create({
       },
       primeirasLinhasBackground: {
         backgroundColor: '#FF00FF'
-      }
+      },
+      loadingContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        // backgroundColor: 'rgba(0, 0, 0, 0.1)', // Cor de fundo transparente para escurecer o conteúdo de fundo
+      },
 });
