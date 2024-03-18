@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { Game, Modality } from '@/types';
 import api from '@/services/api';
 import HeaderModality from '@/components/HeaderModality/HeaderModality';
+import Footer from '@/components/Footer';
 
 export default function TabOneScreen() {
   const [games, setGames] = useState<Game[]>([]);
@@ -24,9 +25,10 @@ export default function TabOneScreen() {
       <HeaderModality 
         onOptionChange={handleOptionChange}
       />
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
+      {/* <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" /> */}
       {/* <Button title="Recarregar Dados" onPress={fetchData} /> */}
       <GamesTable jogos={games} />
+      <Footer></Footer>
     </View>
   );
 }

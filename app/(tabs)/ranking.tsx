@@ -7,6 +7,7 @@ import { GroupRanking, Modality, Team } from '@/types';
 import api from '@/services/api';
 import RankingTable from '@/components/RankingTable/RankingTable';
 import HeaderModality from '@/components/HeaderModality/HeaderModality';
+import Footer from '@/components/Footer';
 
 export default function TabTwoScreen() {
   const [selectedOption, setSelectedOption] = useState<string>('FM/A');
@@ -27,9 +28,8 @@ export default function TabTwoScreen() {
       <HeaderModality
         onOptionChange={handleOptionChange}
       />
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      {/* <Button title="Recarregar Dados" onPress={fetchData} /> */}
       <RankingTable ranking={ranking} numberToQualify={4} />
+      <Footer></Footer>
     </View>
   );
 }

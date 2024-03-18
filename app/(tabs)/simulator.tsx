@@ -6,6 +6,7 @@ import { Game } from '@/types';
 import api from '@/services/api';
 import GamesTableSimulator from '@/components/GamesTableSimulator/GamesTableSimulator';
 import HeaderModality from '@/components/HeaderModality/HeaderModality';
+import Footer from '@/components/Footer';
 
 export default function TabOneScreen() {
   const [dadosAtualizados, setDadosAtualizados] = useState(false);
@@ -24,6 +25,7 @@ export default function TabOneScreen() {
   return (
     <View style={styles.container}>
       <GamesTableSimulator/>
+      <Footer></Footer>
     </View>
   );
 }
