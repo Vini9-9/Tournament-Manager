@@ -1,6 +1,6 @@
 import { Confrontations, Game, GroupRanking, Modality, Team } from '../types';
 
-const API_URL = 'http://vini99.pythonanywhere.com/api'; // ou o endereço da sua API local
+const API_URL = 'https://vini99.pythonanywhere.com/api'; // ou o endereço da sua API local
 // const MOCK_API_URL = 'https://6398a58f29930e2bb3bd4ef3.mockapi.io/api/'; // ou o endereço da sua API local
 // const MOCK_API_MODALITIES_URL = 'https://run.mocky.io/v3/ad07e52d-b970-4488-b484-5045fccbf236'; // ou o endereço da sua API local
 
