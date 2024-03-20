@@ -25,8 +25,6 @@ export default function TabOneScreen() {
       <HeaderModality 
         onOptionChange={handleOptionChange}
       />
-      {/* <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" /> */}
-      {/* <Button title="Recarregar Dados" onPress={fetchData} /> */}
       <GamesTable jogos={games} />
       <Footer></Footer>
     </View>
@@ -38,6 +36,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: 'white'
   },
   containerTitle: {
     marginTop: 10,

@@ -51,6 +51,11 @@ export interface Modality {
   value: string, 
 }
 
+export interface Info {
+  boletimDate: string,
+  dbUpdatedDate: string,
+}
+
 export interface MatchResult {
   [opponent: string]: string; // Chave: Nome do adversário, Valor: Resultado do jogo
 }

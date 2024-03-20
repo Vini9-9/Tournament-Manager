@@ -1,10 +1,20 @@
-import { Confrontations, Game, GroupRanking, Modality, Team } from '../types';
+import { Confrontations, Game, GroupRanking, Info, Modality, Team } from '../types';
 
 const API_URL = 'https://vini99.pythonanywhere.com/api'; // ou o endereço da sua API local
 // const MOCK_API_URL = 'https://6398a58f29930e2bb3bd4ef3.mockapi.io/api/'; // ou o endereço da sua API local
 // const MOCK_API_MODALITIES_URL = 'https://run.mocky.io/v3/ad07e52d-b970-4488-b484-5045fccbf236'; // ou o endereço da sua API local
 
 const api = {
+  getInfo: async (): Promise<Info> => {
+    try {
+      const response = await fetch(`${API_URL}/info`);
+      const data = await response.json();
+      return data as Info;
+    } catch (error) {
+      console.error('Erro ao obter info:', error);
+      return {} as Info
+    }
+  },
   getModalities: async (): Promise<Modality[]> => {
     try {
       const response = await fetch(`${API_URL}/modalities`);
