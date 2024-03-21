@@ -7,17 +7,22 @@ const Footer = () => {
         Linking.openURL(profileURL);
       };
   return (
-    <TouchableOpacity onPress={openLinkedInProfile} style={styles.footer}>
-      <Text style={styles.text}>Desenvolvido por Vinicius Pessoa © {new Date().getFullYear()}</Text>
-    </TouchableOpacity>
+    <View style={styles.container}>
+      <TouchableOpacity onPress={openLinkedInProfile} style={styles.footer}>
+        <Text style={styles.text}>Desenvolvido por Vinicius Pessoa © {new Date().getFullYear()}</Text>
+      </TouchableOpacity>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    backgroundColor: '#f2f2f2',
+    width: '100%'
+  },
   footer: {
     alignItems: 'center',
     justifyContent: 'center',
-    // backgroundColor: '#f2f2f2',
     padding: 10,
   },
   text: {

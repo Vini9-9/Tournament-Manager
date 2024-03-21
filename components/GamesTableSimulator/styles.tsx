@@ -36,5 +36,4 @@ export const stylesComponent = StyleSheet.create({
     localIcon: {
       marginRight: 5,
     },
-
   });

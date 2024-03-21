@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, ScrollView, FlatList, } from 'react-native';
 import { Confrontations, Game, GroupRanking, Team } from '../../types';
 import { styles } from '../../styles/styles'
+import { stylesComponent } from './styles'
 import GameCellSimulator from '../GameCellSimulator/GameCellSimulator';
 import RankingTable from '../RankingTable/RankingTable';
 import api from '@/services/api';
@@ -313,14 +314,14 @@ const GamesTableSimulator: React.FC = () => {
     <HeaderModality 
         onOptionChange={handleOptionChange}
       />
-    <ScrollView horizontal>
+    <ScrollView>
       <View style={styles.container}>
-      <FlatList
-        data={jogos.sort((a, b) => a.GRUPO.localeCompare(b.GRUPO))}
-        renderItem={({ item }) => renderRow(item)}
-      />
+        <RankingTable ranking={ranking} numberToQualify={4} />
+        <FlatList
+          data={jogos.sort((a, b) => a.GRUPO.localeCompare(b.GRUPO))}
+          renderItem={({ item }) => renderRow(item)}
+        />
       </View>
-      <RankingTable ranking={ranking} numberToQualify={4} />
     </ScrollView>
     </>
   );

@@ -1,11 +1,14 @@
 import React from 'react';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { Link, Tabs } from 'expo-router';
-import { Pressable } from 'react-native';
-
+import { Tabs } from 'expo-router';
+import { Image } from 'react-native';
 import Colors from '@/constants/Colors';
 import { useColorScheme } from '@/components/useColorScheme';
 import { useClientOnlyValue } from '@/components/useClientOnlyValue';
+
+import gamesIcon from '../../assets/icons/games_icon.png';
+import rankingIcon from '../../assets/icons/ranking_icon.png';
+import simulatorIcon from '../../assets/icons/simulator_icon.png';
 
 // You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
 function TabBarIcon(props: {
@@ -30,7 +33,13 @@ export default function TabLayout() {
         name="index"
         options={{
           title: 'Jogos',
-          tabBarIcon: ({ color }) => <TabBarIcon name="calendar" color={color} />,
+          // tabBarIcon: ({ color }) => <TabBarIcon name="calendar" color={color} />,
+          tabBarIcon: ({  size  }) => ( 
+            <Image 
+              source={gamesIcon} 
+              style={{ width: size, height: size }} 
+              />
+          ),
           // headerRight: () => (
           //   <Link href="/modal" asChild>
           //     <Pressable>
@@ -51,14 +60,24 @@ export default function TabLayout() {
         name="ranking"
         options={{
           title: 'Classificação',
-          tabBarIcon: ({ color }) => <TabBarIcon name="list" color={color} />,
+          tabBarIcon: ({  size  }) => ( 
+            <Image 
+              source={rankingIcon} 
+              style={{ width: size, height: size }} 
+              />
+          ),
         }}
       />
       <Tabs.Screen
         name="simulator"
         options={{
           title: 'Simulador',
-          tabBarIcon: ({ color }) => <TabBarIcon name="desktop" color={color} />,
+          tabBarIcon: ({  size  }) => ( 
+            <Image 
+              source={simulatorIcon} 
+              style={{ width: size, height: size }} 
+              />
+          ),
         }}
       />
     </Tabs>

@@ -1,17 +1,13 @@
-import { Button, StyleSheet } from 'react-native';
-import { Text, View } from '@/components/Themed';
-import GamesTable from '@/components/GamesTable/GamesTable';
+import { StyleSheet } from 'react-native';
+import { View } from '@/components/Themed';
 import { useEffect, useState } from 'react';
 import { Game } from '@/types';
 import api from '@/services/api';
 import GamesTableSimulator from '@/components/GamesTableSimulator/GamesTableSimulator';
-import HeaderModality from '@/components/HeaderModality/HeaderModality';
 import Footer from '@/components/Footer';
 
 export default function TabOneScreen() {
-  const [dadosAtualizados, setDadosAtualizados] = useState(false);
   const [jogos, setJogos] = useState<Game[]>([]);
-  const [modality, setModality] = useState<string>('FM/A');
 
   const fetchData = async () => {
     const jogosData = await api.getGames('FM', 'A');
@@ -35,6 +31,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: 'white'
   },
   containerTitle: {
     marginTop: 10,

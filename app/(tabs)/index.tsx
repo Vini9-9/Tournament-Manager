@@ -1,17 +1,16 @@
-import { Button, StyleSheet } from 'react-native';
-import { Text, View } from '@/components/Themed';
+import { StyleSheet } from 'react-native';
+import { View } from '@/components/Themed';
 import GamesTable from '@/components/GamesTable/GamesTable';
-import { useEffect, useState } from 'react';
-import { Game, Modality } from '@/types';
+import { useState } from 'react';
+import { Game } from '@/types';
 import api from '@/services/api';
 import HeaderModality from '@/components/HeaderModality/HeaderModality';
 import Footer from '@/components/Footer';
 
 export default function TabOneScreen() {
   const [games, setGames] = useState<Game[]>([]);
-  const [options, setOptions] = useState<Modality[]>([]);
 
-      // Função para lidar com a seleção de uma opção na lista suspensa
+  // Função para lidar com a seleção de uma opção na lista suspensa
   const handleOptionChange = async (value: string | undefined) => {
     if (value){
       const data = value.split('/');
@@ -25,8 +24,6 @@ export default function TabOneScreen() {
       <HeaderModality 
         onOptionChange={handleOptionChange}
       />
-      {/* <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" /> */}
-      {/* <Button title="Recarregar Dados" onPress={fetchData} /> */}
       <GamesTable jogos={games} />
       <Footer></Footer>
     </View>
@@ -38,6 +35,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: 'white'
   },
   containerTitle: {
     marginTop: 10,

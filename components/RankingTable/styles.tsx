@@ -1,17 +1,32 @@
 import { StyleSheet } from 'react-native';
 
 export const stylesComponent = StyleSheet.create({
-    container: {
-        flexDirection: 'column',
-        flexWrap: 'wrap',
-        minWidth: 600
+      container: {
+        flex: 1,
+        backgroundColor: "#fff",
+        paddingVertical: 5,
+        paddingHorizontal: 5,
+        marginVertical: 5
+      },
+      listContainer: {
+        flex: 1,
       },
       cabecalho: {
         flexDirection: 'row',
         backgroundColor: '#7030A0',
-        padding: 10,
+        paddingVertical: 5,
         borderBottomWidth: 1,
         borderBottomColor: 'white',
+      },
+      row: {
+        flexDirection: 'row',
+        justifyContent: "space-between",
+        marginVertical: .5,
+        marginHorizontal: 1,
+        elevation: 1,
+        borderRadius: 3,
+        paddingVertical: 8,
+        backgroundColor: "#fff",
       },
       item: {
         flexDirection: 'row',
@@ -21,28 +36,44 @@ export const stylesComponent = StyleSheet.create({
         borderBottomColor: '#ddd',
         width: 500
       },
-      textoCabecalho: {
+      textoNormalCabecalho: {
         flex: 1,
         color: 'white',
+        textAlign: 'center',
+        width: 35,
+      },
+      textoMenorCabecalho: {
+        flex: 1,
+        color: 'white',
+        textAlign: 'center',
+        width: 25,
+      },
+      textoNormal: {
+        flex: 1,
+        width: 35,
+        color: 'black',
+        textAlign: 'center',
+      },
+      textoMenor: {
+        flex: 1,
+        width: 25,
+        color: 'black',
         textAlign: 'center',
       },
       texto: {
         flex: 1,
-        textAlign: 'center',
+        color: 'black'
       },
       textoTimes: {
-        flex: 3, // Ajuste o valor conforme necessário para controlar a largura da célula do time
-        maxWidth: 150, // Limita a largura máxima da célula do time
+        minWidth: 100, // Limita a largura máxima da célula do time
         textAlign: 'left', // Alinha o texto do time à esquerda
         flexWrap: 'wrap', // Adiciona quebra de linha ao texto do time
       },
       textoGrupo: {
         color: 'white',
-        flex: 3, // Ajuste o valor conforme necessário para controlar a largura da célula do time
-        maxWidth: 150, // Limita a largura máxima da célula do time
         textAlign: 'left', // Alinha o texto do time à esquerda
-        flexWrap: 'wrap', // Adiciona quebra de linha ao texto do time
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        width: 100,
       },
       primeiraColuna: {
         flex: 3,

@@ -1,13 +1,12 @@
-import { StyleSheet } from 'react-native';
-
-import EditScreenInfo from '@/components/EditScreenInfo';
-import { Text, View } from '@/components/Themed';
-import { useEffect, useState } from 'react';
+import { ScrollView, StyleSheet } from 'react-native';
+import { View } from '@/components/Themed';
+import { useState } from 'react';
 import { GroupRanking, Modality, Team } from '@/types';
 import api from '@/services/api';
 import RankingTable from '@/components/RankingTable/RankingTable';
 import HeaderModality from '@/components/HeaderModality/HeaderModality';
 import Footer from '@/components/Footer';
+import Table from '@/components/RankingTable/Table';
 
 export default function TabTwoScreen() {
   const [selectedOption, setSelectedOption] = useState<string>('FM/A');
@@ -24,13 +23,15 @@ export default function TabTwoScreen() {
     };
     
   return (
-    <View style={styles.container}>
+    <>
       <HeaderModality
         onOptionChange={handleOptionChange}
       />
       <RankingTable ranking={ranking} numberToQualify={4} />
       <Footer></Footer>
-    </View>
+    </>
+    // <View style={styles.container}>
+    // </View>
   );
 }
 
@@ -40,10 +41,17 @@ const styles = StyleSheet.create({
     height: 1,
     width: '80%',
   },
+  containerClean: {
+    // flex: 1,
+    // alignItems: 'center',
+    // justifyContent: 'center',
+    backgroundColor: 'white'
+  },
   container: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: 'white'
   },
   containerTitle: {
     marginTop: 10,
