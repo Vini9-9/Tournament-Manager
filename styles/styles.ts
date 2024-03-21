@@ -2,10 +2,16 @@ import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
-    flexDirection: 'column',
-    flexWrap: 'wrap',
-    borderBottomWidth: 1,
-    borderBottomColor: '#ddd',
+    // flexDirection: 'column',
+    // flexWrap: 'wrap',
+    // borderBottomWidth: 1,
+    // borderBottomColor: '#ddd',
+    backgroundColor: 'green',
+    flex: 1,
+    // backgroundColor: "#fff",
+    paddingVertical: 5,
+    paddingHorizontal: 5,
+    // marginVertical: 5
   },
   cabecalho: {
     backgroundColor: 'purple',
