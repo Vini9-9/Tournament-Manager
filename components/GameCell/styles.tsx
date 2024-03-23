@@ -2,9 +2,11 @@ import { StyleSheet } from 'react-native';
 
 export const stylesComponent = StyleSheet.create({
   celulaPartida: {
+    alignItems: 'center',
+    width: '85%',
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    padding: 10,
+    // justifyContent: 'space-between',
+    padding: 5,
     marginBottom: 5, // Espaçamento inferior entre as células
     marginHorizontal: 5, // Espaçamento inferior entre as células
     backgroundColor: 'white', // Cor de fundo

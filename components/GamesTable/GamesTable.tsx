@@ -15,7 +15,7 @@ const GamesTable: React.FC<GamesTableProps> = ({ jogos }) => {
   const formatarData = (data: string) => moment(data).format('DD/MM');
 
   const renderRow = (item: Game) => (
-    <View>
+    <View style={{alignItems: 'center'}}>
         <Text style={stylesComponent.textoDestaque}> Grupo {item.GRUPO}</Text>
       <View style={stylesComponent.item}>
         {item.LOCAL &&

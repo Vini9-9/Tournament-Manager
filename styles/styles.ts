@@ -6,7 +6,7 @@ export const styles = StyleSheet.create({
     // flexWrap: 'wrap',
     // borderBottomWidth: 1,
     // borderBottomColor: '#ddd',
-    backgroundColor: 'green',
+    // backgroundColor: 'green',
     flex: 1,
     // backgroundColor: "#fff",
     paddingVertical: 5,
