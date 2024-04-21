@@ -31,4 +31,7 @@ export const stylesComponent = StyleSheet.create({
     textAlign: 'center',
     fontWeight: 'bold', // Para dar destaque ao placar
   },
+  destaque: {
+    backgroundColor: 'yellow'
+  }
 });

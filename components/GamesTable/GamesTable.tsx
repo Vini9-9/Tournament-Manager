@@ -14,6 +14,21 @@ interface GamesTableProps {
 const GamesTable: React.FC<GamesTableProps> = ({ jogos }) => {
   const formatarData = (data: string) => moment(data).format('DD/MM');
 
+  const checkNearestWeekend = (date: string) => {
+    const currentDate = moment();
+    console.log('hoje', currentDate.format('DD-MM-YYYY'))
+    console.log('hoje', currentDate.weekday())
+    let initialDate = currentDate.clone().subtract(2, 'd'); 
+
+    const dateMoment = moment(date, 'YYYY-MM-DD');
+    
+    console.log('initial', initialDate.format('DD-MM-YYYY'))
+    const finalDate = initialDate.clone().weekday(7); 
+
+    return dateMoment.isBetween(initialDate, finalDate)
+}
+  
+
   const renderRow = (item: Game) => (
     <View style={{alignItems: 'center'}}>
         <Text style={stylesComponent.textoDestaque}> Grupo {item.GRUPO}</Text>
@@ -30,6 +45,7 @@ const GamesTable: React.FC<GamesTableProps> = ({ jogos }) => {
         </Text>
       </View>
         <GameCell
+          nextGame={checkNearestWeekend(item.DIA)}
           mandante={item.Mandante}
           visitante={item.Visitante}
           golsMandante={item.GOLS_MANDANTE}
