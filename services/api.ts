@@ -23,6 +23,16 @@ const api = {
       return []
     }
   },
+  getLocalities: async (): Promise<string[]> => {
+    try {
+      const response = await fetch(`${API_URL}/localities`);
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('Erro ao obter localidades:', error);
+      return []
+    }
+  },
   getGames: async (modality: string, series: string): Promise<Game[]> => {
     try {
       const response = await fetch(`${API_URL}/games/${modality}/${series}`);
@@ -31,6 +41,16 @@ const api = {
       return data as Game[];
     } catch (error) {
       console.error('Erro ao obter jogos:', error);
+      return []
+    }
+  },
+  getNextGames: async (local: string): Promise<Game[]> => {
+    try {
+      const response = await fetch(`${API_URL}/nextGames/local/${local}`);
+      const data = await response.json();
+      return data as Game[];
+    } catch (error) {
+      console.error('Erro ao obter proximos jogos:', error);
       return []
     }
   },

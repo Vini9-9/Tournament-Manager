@@ -2,14 +2,14 @@ import { StyleSheet } from 'react-native';
 
 export const stylesComponent = StyleSheet.create({
       container: {
-        flex: 1,
+        // flex: 1,
         backgroundColor: "#fff",
         paddingVertical: 5,
         paddingHorizontal: 5,
         marginVertical: 5
       },
       listContainer: {
-        flex: 1,
+        // flex: 1,
       },
       cabecalho: {
         flexDirection: 'row',

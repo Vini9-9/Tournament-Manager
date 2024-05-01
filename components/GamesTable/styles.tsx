@@ -25,12 +25,14 @@ export const stylesComponent = StyleSheet.create({
     },
     textoDestaque: {
       flex: 1,
-      // color: 'black',
       fontWeight: 'bold',
       textAlign: 'center',
       justifyContent: 'center',
       marginBottom: -10,
       marginTop: 10,
+    },
+    textoModalidade: {
+      color: '#235C9C'
     },
     texto: {
       flex: 1,
@@ -39,4 +41,11 @@ export const stylesComponent = StyleSheet.create({
     localIcon: {
       marginRight: 5,
     },
+    noGamesContainer: {
+      flex: 1,
+    },
+    noGamesText: {
+      top: '50%',
+      fontSize: 16,
+    }
   });

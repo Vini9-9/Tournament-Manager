@@ -10,6 +10,7 @@ export interface Game {
     LOCAL: string;
     PLACAR: string;
     SIMULADOR: string | boolean;
+    modalidade?: string;
 }
 
 export interface GameUpdated {

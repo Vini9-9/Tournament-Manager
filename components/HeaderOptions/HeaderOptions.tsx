@@ -5,20 +5,27 @@ import RNPickerSelect from 'react-native-picker-select';
 import api from '@/services/api';
 import moment from 'moment';
 
-interface HeaderModalityProps {
+interface HeaderProps {
     onOptionChange: (value: string) => void;
+    title: string
 }
 
-const HeaderModality: React.FC<HeaderModalityProps>  = ({ onOptionChange }) => {
-    const [options, setOptions] = useState<Modality[]>([]);
+const HeaderOptions: React.FC<HeaderProps>  = ({ onOptionChange, title }) => {
+    const [options, setOptions] = useState<any[]>([]);
     const [boletimDate, setBoletimDate] = useState<string>('');
     const [selectedOption, setSelectedOption] = useState<string | null>(null);
     const [selectedLabel, setSelectedLabel] = useState<string | null>(null);
 
     const fetchData = async () => {
-        const modalitiesData = await api.getModalities();
+        const localities = await api.getLocalities();
         const info = await api.getInfo();
-        setOptions(modalitiesData);
+        const optionsData = localities.map((locality) => {
+            return {
+                "label": locality
+            };
+        });
+
+        setOptions(optionsData);
         const date_fmt = moment(info.boletimDate, 'DD/MM/YYYY').format('DD/MM')
         setBoletimDate(date_fmt);
     };
@@ -32,23 +39,17 @@ const HeaderModality: React.FC<HeaderModalityProps>  = ({ onOptionChange }) => {
         fetchData();
     }, []);
 
-    const getLabelByValue = (value: string | null) => {
-        if (!value) return null;
-        const option = options.find((option) => option.value === value);
-        return option ? option.label : null;
-        };
-
     return (
         <View style={styles.container}>
             <View style={styles.content}>
-                <Text style={styles.text}>Selecione uma modalidade: </Text>
+                <Text style={styles.text}>{title}</Text>
                 <RNPickerSelect
                     useNativeAndroidPickerStyle
                     placeholder={{ label: 'Selecione uma opção', value: null }}
                     items={options}
                     onValueChange={value => {
                         setSelectedOption(value);
-                        setSelectedLabel(getLabelByValue(value));
+                        setSelectedLabel(value);
                         onOptionChange(value)
                     }}
                     style={pickerSelectStyles}
@@ -104,6 +105,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
+    content: {
+    },
     text: {
         alignSelf: 'center',
         fontSize: 15,
@@ -124,4 +127,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default HeaderModality;
+export default HeaderOptions;

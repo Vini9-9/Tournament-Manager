@@ -24,7 +24,7 @@ export default function TabOneScreen() {
       <HeaderModality 
         onOptionChange={handleOptionChange}
       />
-      <GamesTable jogos={games} />
+      <GamesTable jogos={games} nextGamesEnabled />
       <Footer></Footer>
     </View>
   );
@@ -35,24 +35,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'white'
-  },
-  containerTitle: {
-    marginTop: 10,
-    marginBottom: 0,
-    alignItems: 'center',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  subtitle: {
-    fontSize: 15,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  },
+    backgroundColor: 'white',
+  }
 });

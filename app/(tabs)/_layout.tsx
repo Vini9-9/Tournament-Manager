@@ -1,22 +1,23 @@
 import React from 'react';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Tabs } from 'expo-router';
-import { Image } from 'react-native';
+import { Image, TouchableOpacity, Text } from 'react-native';
 import Colors from '@/constants/Colors';
 import { useColorScheme } from '@/components/useColorScheme';
 import { useClientOnlyValue } from '@/components/useClientOnlyValue';
+import { StyleSheet } from 'react-native';
 
 import gamesIcon from '../../assets/icons/games_icon.png';
 import rankingIcon from '../../assets/icons/ranking_icon.png';
 import simulatorIcon from '../../assets/icons/simulator_icon.png';
 
-// You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>['name'];
-  color: string;
-}) {
-  return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
-}
+
+const OutlineButton = ({ title, onPress }) => {
+  return (
+    <TouchableOpacity style={styles.button} onPress={onPress}>
+      <Text style={styles.buttonText}>{title}</Text>
+    </TouchableOpacity>
+  );
+};
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -33,27 +34,13 @@ export default function TabLayout() {
         name="index"
         options={{
           title: 'Jogos',
-          // tabBarIcon: ({ color }) => <TabBarIcon name="calendar" color={color} />,
           tabBarIcon: ({  size  }) => ( 
             <Image 
               source={gamesIcon} 
               style={{ width: size, height: size }} 
               />
           ),
-          // headerRight: () => (
-          //   <Link href="/modal" asChild>
-          //     <Pressable>
-          //       {({ pressed }) => (
-          //         <FontAwesome
-          //           name="info-circle"
-          //           size={25}
-          //           color={Colors[colorScheme ?? 'light'].text}
-          //           style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-          //         />
-          //       )}
-          //     </Pressable>
-          //   </Link>
-          // ),
+          headerRight: () => (<OutlineButton title="Jogos da rodada" onPress={() => navigation.navigate('nextGames')} />)
         }}
       />
       <Tabs.Screen
@@ -83,3 +70,21 @@ export default function TabLayout() {
     </Tabs>
   );
 }
+
+const styles = StyleSheet.create({
+  button: {
+    backgroundColor: 'white',
+    borderWidth: 1,
+    borderColor: '#235C9C',
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+    alignItems: 'center',
+    marginRight: 10,
+  },
+  buttonText: {
+    color: '#235C9C',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+});

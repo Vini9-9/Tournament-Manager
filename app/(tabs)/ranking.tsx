@@ -7,11 +7,11 @@ import RankingTable from '@/components/RankingTable/RankingTable';
 import HeaderModality from '@/components/HeaderModality/HeaderModality';
 import Footer from '@/components/Footer';
 import Table from '@/components/RankingTable/Table';
+import GamesTable from '@/components/GamesTable/GamesTable';
 
 export default function TabTwoScreen() {
   const [selectedOption, setSelectedOption] = useState<string>('FM/A');
   const [ranking, setRanking] = useState<GroupRanking[]>([]);
-  const [options, setOptions] = useState<Modality[]>([]);
 
   const handleOptionChange = async (value: string | undefined) => {
     if (value){
@@ -23,47 +23,20 @@ export default function TabTwoScreen() {
     };
     
   return (
-    <>
-      <HeaderModality
+    <View style={styles.container}>
+      <HeaderModality 
         onOptionChange={handleOptionChange}
-      />
-      <RankingTable ranking={ranking} numberToQualify={4} />
+        />
+      <ScrollView>
+        <RankingTable ranking={ranking} numberToQualify={4} />
+      </ScrollView>
       <Footer></Footer>
-    </>
-    // <View style={styles.container}>
-    // </View>
+        </View>
   );
 }
 
 const styles = StyleSheet.create({
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  },
-  containerClean: {
-    // flex: 1,
-    // alignItems: 'center',
-    // justifyContent: 'center',
-    backgroundColor: 'white'
-  },
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'white'
-  },
-  containerTitle: {
-    marginTop: 10,
-    marginBottom: 0,
-    alignItems: 'center',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  subtitle: {
-    fontSize: 15,
-    fontWeight: 'bold',
   },
 });

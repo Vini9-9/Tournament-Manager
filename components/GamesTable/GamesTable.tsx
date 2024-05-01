@@ -9,28 +9,34 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 interface GamesTableProps {
   jogos: Game[];
+  nextGamesEnabled: boolean;
 }
 
-const GamesTable: React.FC<GamesTableProps> = ({ jogos }) => {
+const GamesTable: React.FC<GamesTableProps> = ({ jogos, nextGamesEnabled=true }) => {
   const formatarData = (data: string) => moment(data).format('DD/MM');
 
   const checkNearestWeekend = (date: string) => {
     const currentDate = moment();
-    console.log('hoje', currentDate.format('DD-MM-YYYY'))
-    console.log('hoje', currentDate.weekday())
-    let initialDate = currentDate.clone().subtract(2, 'd'); 
-
+    let initialDate = currentDate.clone().subtract(1, 'd'); 
     const dateMoment = moment(date, 'YYYY-MM-DD');
     
-    console.log('initial', initialDate.format('DD-MM-YYYY'))
-    const finalDate = initialDate.clone().weekday(7); 
-
+    let finalDate = currentDate.clone().weekday(7); 
+    if (currentDate.weekday() === 0){
+      finalDate = currentDate.clone(); 
+    }
     return dateMoment.isBetween(initialDate, finalDate)
 }
   
+  // Função para ordenar os jogos por data e horário
+  const sortedJogos = [...jogos].sort((a, b) => {
+    const dataA = moment(a.DIA + ' ' + a.HORARIO, 'YYYY-MM-DD HH:mm');
+    const dataB = moment(b.DIA + ' ' + b.HORARIO, 'YYYY-MM-DD HH:mm');
+    return dataA.diff(dataB);
+  });
 
   const renderRow = (item: Game) => (
     <View style={{alignItems: 'center'}}>
+        {item.modalidade ? <Text style={[stylesComponent.textoDestaque, stylesComponent.textoModalidade]}> {item.modalidade}</Text> : ''}
         <Text style={stylesComponent.textoDestaque}> Grupo {item.GRUPO}</Text>
       <View style={stylesComponent.item}>
         {item.LOCAL &&
@@ -45,7 +51,7 @@ const GamesTable: React.FC<GamesTableProps> = ({ jogos }) => {
         </Text>
       </View>
         <GameCell
-          nextGame={checkNearestWeekend(item.DIA)}
+          nextGame={nextGamesEnabled && checkNearestWeekend(item.DIA)}
           mandante={item.Mandante}
           visitante={item.Visitante}
           golsMandante={item.GOLS_MANDANTE}
@@ -58,7 +64,7 @@ const GamesTable: React.FC<GamesTableProps> = ({ jogos }) => {
     <ScrollView horizontal>
       <View style={styles.container}>
         <FlatList
-          data={jogos}
+          data={sortedJogos}
           keyExtractor={(item) => item.ID}
           renderItem={({ item }) => renderRow(item)}
         />

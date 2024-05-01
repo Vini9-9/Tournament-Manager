@@ -314,7 +314,7 @@ const GamesTableSimulator: React.FC = () => {
     <HeaderModality 
         onOptionChange={handleOptionChange}
       />
-    <ScrollView>
+    <ScrollView showsVerticalScrollIndicator={false}>
         <RankingTable ranking={ranking} numberToQualify={4} />
         <FlatList
           data={jogos.sort((a, b) => a.GRUPO.localeCompare(b.GRUPO))}

@@ -8,7 +8,9 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "test": "jest --watchAll"
+    "test": "jest --watchAll",
+    "compile-web": "npx expo export -p web",
+    "serve-web": "npx serve dist --single"
   },
   "jest": {
     "preset": "jest-expo"
