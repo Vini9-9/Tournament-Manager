@@ -19,7 +19,7 @@ const OutlineButton = ({ title, onPress }) => {
   );
 };
 
-export default function TabLayout() {
+export default function TabLayout({ navigation }) {
   const colorScheme = useColorScheme();
 
   return (
@@ -40,7 +40,7 @@ export default function TabLayout() {
               style={{ width: size, height: size }} 
               />
           ),
-          headerRight: () => (<OutlineButton title="Jogos da rodada" onPress={() => navigation.navigate('nextGames')} />)
+          headerRight: () => (<OutlineButton title="Jogos da rodada" onPress={() => navigation.navigate('modal')} />)
         }}
       />
       <Tabs.Screen

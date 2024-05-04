@@ -8,7 +8,7 @@ import { Game } from '@/types';
 import api from '@/services/api';
 import HeaderOptions from '@/components/HeaderOptions/HeaderOptions';
 
-export default function NextGamesScreen() {
+export default function ModalScreen() {
   const [games, setGames] = useState<Game[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   let localities:string[] = []; 
@@ -23,12 +23,7 @@ export default function NextGamesScreen() {
   const handleOptionChange = async (value: string | undefined) => {
     if (value){
       setLoading(true);
-      localities = await api.getLocalities();
-      optionsData = localities.map((locality) => {
-        return {
-            "label": locality
-        };
-      });
+      
       try {
           const nextGames = await api.getNextGames(value);
           setGames(nextGames); // Atualiza o estado dos jogos com os novos jogos obtidos
