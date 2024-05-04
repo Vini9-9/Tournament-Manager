@@ -1,6 +1,6 @@
 import React from 'react';
-import { Tabs } from 'expo-router';
-import { Image, TouchableOpacity, Text } from 'react-native';
+import { Link, Tabs } from 'expo-router';
+import { Image, TouchableOpacity, Text, Pressable, TouchableHighlight } from 'react-native';
 import Colors from '@/constants/Colors';
 import { useColorScheme } from '@/components/useColorScheme';
 import { useClientOnlyValue } from '@/components/useClientOnlyValue';
@@ -11,15 +11,15 @@ import rankingIcon from '../../assets/icons/ranking_icon.png';
 import simulatorIcon from '../../assets/icons/simulator_icon.png';
 
 
-const OutlineButton = ({ title, onPress }) => {
+const OutlineButton = ({ title }) => {
   return (
-    <TouchableOpacity style={styles.button} onPress={onPress}>
+    <TouchableOpacity style={styles.button}>
       <Text style={styles.buttonText}>{title}</Text>
     </TouchableOpacity>
   );
 };
 
-export default function TabLayout({ navigation }) {
+export default function TabLayout() {
   const colorScheme = useColorScheme();
 
   return (
@@ -40,7 +40,16 @@ export default function TabLayout({ navigation }) {
               style={{ width: size, height: size }} 
               />
           ),
-          headerRight: () => (<OutlineButton title="Jogos da rodada" onPress={() => navigation.navigate('modal')} />)
+          // headerRight: () => (<OutlineButton title="Jogos da rodada" onPress={() => navigation.navigate('modal')} />)
+          headerRight: () => (
+            <Link href="/modal" asChild>
+                 <Pressable>
+                   {({ pressed }) => (
+                     <OutlineButton title="Jogos da rodada" />
+                   )}
+                 </Pressable>
+               </Link>
+          )
         }}
       />
       <Tabs.Screen
