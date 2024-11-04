@@ -30,6 +30,7 @@
     "expo-web-browser": "~12.8.2",
     "moment": "^2.30.1",
     "react": "18.2.0",
+    "react-brackets": "^0.4.7",
     "react-dom": "18.2.0",
     "react-native": "0.73.2",
     "react-native-picker-select": "^9.0.1",

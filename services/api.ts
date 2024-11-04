@@ -1,4 +1,4 @@
-import { Confrontations, Game, GroupRanking, Info, Modality, Team } from '../types';
+import { Confrontations, Game, GroupRanking, Info, Modality, PlayoffGame } from '../types';
 
 const API_URL = 'https://vini99.pythonanywhere.com/api'; // ou o endereço da sua API local
 
@@ -36,11 +36,20 @@ const api = {
   getGames: async (modality: string, series: string): Promise<Game[]> => {
     try {
       const response = await fetch(`${API_URL}/games/${modality}/${series}`);
-      // const response = await fetch(`${MOCK_API_URL}/games/`);
       const data = await response.json();
       return data as Game[];
     } catch (error) {
       console.error('Erro ao obter jogos:', error);
+      return []
+    }
+  },
+  getPlayoff: async (modality: string, series: string): Promise<PlayoffGame[]> => {
+    try {
+      const response = await fetch(`${API_URL}/playoff/${modality}/${series}`);
+      const data = await response.json();
+      return data as PlayoffGame[];
+    } catch (error) {
+      console.error('Erro ao obter playoff:', error);
       return []
     }
   },
@@ -57,7 +66,6 @@ const api = {
   getRanking: async (modality: string, series: string): Promise<GroupRanking[]> => {
     try {
       const response = await fetch(`${API_URL}/ranking/${modality}/${series}`);
-      // const response = await fetch(`${MOCK_API_URL}/ranking`);
       const data = await response.json();
       return data as GroupRanking[];
     } catch (error) {

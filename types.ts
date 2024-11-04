@@ -1,3 +1,18 @@
+export interface PlayoffGame {
+    ID: string;
+    DIA: string;
+    Mandante: string;
+    LABEL_Mandante: string;
+    Visitante: string;
+    LABEL_Visitante: string;
+    GOLS_MANDANTE: number;
+    GOLS_VISITANTE: number;
+    FASE: string;
+    IDX_FASE?: number;
+    HORARIO: string;
+    LOCAL: string;
+    PLACAR: string;
+}
 export interface Game {
     ID: string;
     DIA: string;
