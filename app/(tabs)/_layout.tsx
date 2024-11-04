@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, Tabs } from 'expo-router';
 import { Image, TouchableOpacity, Text, Pressable, TouchableHighlight } from 'react-native';
 import Colors from '@/constants/Colors';
@@ -9,6 +9,8 @@ import { StyleSheet } from 'react-native';
 import gamesIcon from '../../assets/icons/games_icon.png';
 import rankingIcon from '../../assets/icons/ranking_icon.png';
 import simulatorIcon from '../../assets/icons/simulator_icon.png';
+import { Flag } from '@/types';
+import api from '@/services/api';
 
 
 const OutlineButton = ({ title }) => {
@@ -20,7 +22,18 @@ const OutlineButton = ({ title }) => {
 };
 
 export default function TabLayout() {
+  const [flag, setFlag] = useState<Flag>({});
   const colorScheme = useColorScheme();
+
+  const fetchData = async () => {
+    const flag = await api.getFlag();
+    setFlag(flag)
+    console.log('flags', flag)
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <Tabs
@@ -67,7 +80,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="simulator"
         options={{
-          title: 'Simulador',
+          title: `${flag.playoff ? 'Playoff' : 'Simulador'}`,
           tabBarIcon: ({  size  }) => ( 
             <Image 
               source={simulatorIcon} 

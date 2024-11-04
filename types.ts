@@ -72,6 +72,10 @@ export interface Info {
   dbUpdatedDate: string,
 }
 
+export interface Flag {
+  playoff?: boolean,
+}
+
 export interface MatchResult {
   [opponent: string]: string; // Chave: Nome do adversário, Valor: Resultado do jogo
 }

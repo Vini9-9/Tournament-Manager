@@ -1,4 +1,4 @@
-import { Confrontations, Game, GroupRanking, Info, Modality, PlayoffGame } from '../types';
+import { Confrontations, Flag, Game, GroupRanking, Info, Modality, PlayoffGame } from '../types';
 
 const API_URL = 'https://vini99.pythonanywhere.com/api'; // ou o endereço da sua API local
 
@@ -11,6 +11,16 @@ const api = {
     } catch (error) {
       console.error('Erro ao obter info:', error);
       return {} as Info
+    }
+  },
+  getFlag: async (): Promise<Flag> => {
+    try {
+      const response = await fetch(`${API_URL}/flags`);
+      const data = await response.json();
+      return data as Flag;
+    } catch (error) {
+      console.error('Erro ao obter flag:', error);
+      return {} as Flag
     }
   },
   getModalities: async (): Promise<Modality[]> => {

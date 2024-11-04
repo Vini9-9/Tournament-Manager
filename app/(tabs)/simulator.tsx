@@ -1,17 +1,19 @@
 import { StyleSheet } from 'react-native';
 import { View } from '@/components/Themed';
 import { useEffect, useState } from 'react';
-import { Game } from '@/types';
+import { Flag } from '@/types';
 import api from '@/services/api';
 import GamesTableSimulator from '@/components/GamesTableSimulator/GamesTableSimulator';
 import Footer from '@/components/Footer';
+import GamesPlayoff from '@/components/GamesPlayoff/GamesPlayoff';
 
 export default function TabOneScreen() {
-  const [jogos, setJogos] = useState<Game[]>([]);
+  const [flags, setFlag] = useState<Flag>({});
 
   const fetchData = async () => {
-    const jogosData = await api.getGames('FM', 'A');
-    setJogos(jogosData);
+    const flags = await api.getFlag();
+    setFlag(flags)
+    console.log('flags', flags)
   };
   
   useEffect(() => {
@@ -20,7 +22,11 @@ export default function TabOneScreen() {
     
   return (
     <View style={styles.container}>
-      <GamesTableSimulator/>
+      { 
+        flags.playoff ?
+        <GamesPlayoff/> :
+        <GamesTableSimulator/>
+      }
       <Footer></Footer>
     </View>
   );
